@@ -92,6 +92,8 @@ class Wp {
 		url.searchParams.set('per_page', limit + '');
 		url.searchParams.set('_embed', '1');
 
+		if (options.slug) url.searchParams.set('slug', options.slug);
+
 		if (options.category) {
 			const categoryQueryUrl = new URL(self.baseUrl + '/wp/v2/categories');
 			categoryQueryUrl.searchParams.set('slug', options.category);
