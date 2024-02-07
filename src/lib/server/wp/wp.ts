@@ -1,5 +1,5 @@
 import { WORDPRESS, WP_PASS, WP_USER } from '$env/static/private';
-import { type WpMedia, type WpPage, type WpPost, type WpPosts, type WpSettings } from '$lib/wp';
+import type { WpMedia, WpPage, WpPost, WpPosts, WpSettings } from '$lib/wp';
 
 interface CacheType {
 	post: unknown;
