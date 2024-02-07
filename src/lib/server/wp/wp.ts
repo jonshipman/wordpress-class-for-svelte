@@ -138,7 +138,7 @@ class Wp {
 
 	async postById<T extends WpPost>(id: number, postType = 'posts'): Promise<null | T> {
 		const self = this.constructor as typeof Wp;
-		const cache = this.getcache<T>('' + id);
+		const cache = this.getcache<T>(postType + id);
 		if (cache) return cache;
 
 		const url = new URL(self.baseUrl + '/wp/v2/' + postType + '/' + id);
@@ -147,8 +147,8 @@ class Wp {
 		const response = await this.fetch(url.toString());
 		if (response.ok) {
 			const result = await this.process(response);
-			this.cache('' + id, result);
-			this.cache(result.slug, result);
+			this.cache(postType + id, result);
+			this.cache(postType + result.slug, result);
 			return result;
 		}
 
@@ -156,14 +156,14 @@ class Wp {
 	}
 
 	async post<T extends WpPost>(slug: string, postType = 'posts'): Promise<null | T> {
-		const cache = this.getcache<T>(slug);
+		const cache = this.getcache<T>(postType + slug);
 		if (cache) return cache;
 
 		const posts = await this.posts<T>({ page: 1, limit: 1, slug, postType });
 		if (posts.total) {
 			const post = posts.results[0];
-			this.cache(slug, post);
-			this.cache('' + post.id, post);
+			this.cache(postType + slug, post);
+			this.cache(postType + post.id, post);
 			return post;
 		}
 
